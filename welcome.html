@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: transparent;
+      font-family: 'Arial', sans-serif;
+    }
+
+    #popup {
+      display: none;
+      position: absolute;
+      top: 30%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.8);
+      border: 2px solid #00ffcc;
+      padding: 20px 40px;
+      border-radius: 15px;
+      color: white;
+      font-size: 24px;
+      box-shadow: 0 0 20px #00ffcc;
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translate(-50%, -60%); }
+      to { opacity: 1; transform: translate(-50%, -50%); }
+    }
+    @keyframes fadeOut {
+      from { opacity: 1; transform: translate(-50%, -50%); }
+      to { opacity: 0; transform: translate(-50%, -60%); }
+    }
+  </style>
+</head>
+<body>
+
+<div id="popup">Selamat datang, <span id="username"></span>! 🎉</div>
+
+<script>
+  // Fungsi untuk menampilkan ucapan selamat datang
+  function showWelcome(name) {
+    const popup = document.getElementById("popup");
+    const username = document.getElementById("username");
+    username.textContent = name;
+    popup.style.display = "block";
+    popup.style.animation = "fadeIn 0.5s ease-out";
+
+    // Hilangkan setelah 5 detik
+    setTimeout(() => {
+      popup.style.animation = "fadeOut 0.5s ease-in";
+      setTimeout(() => popup.style.display = "none", 500);
+    }, 5000);
+  }
+
+  // Simulasi data dari bot/chat → Ganti dengan WebSocket/Fetch real-time
+  // Contoh pemanggilan: showWelcome('UsernameMember');
+  window.addEventListener('message', (event) => {
+    if (event.data.type === 'new-member') {
+      showWelcome(event.data.name);
+    }
+  });
+
+  // DEBUG: Test manual (hapus/comment di live)
+  // setTimeout(() => showWelcome("MemberBaru123"), 1000);
+</script>
+
+</body>
+</html>
